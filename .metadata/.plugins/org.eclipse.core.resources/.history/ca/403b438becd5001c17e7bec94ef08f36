@@ -1,0 +1,189 @@
+package Web;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/")
+public class UserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private ClassDAO classDAO;
+	private SubjectDAO subjectDAO;
+
+	public UserServlet() {
+		super();
+		this.classDAO = new ClassDAO();
+		this.subjectDAO = new SubjectDAO();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getServletPath();
+
+		try {
+			switch (action) {
+
+			// Class-Record options -
+			case "/insertClass":
+				insertClass(request, response);
+				break;
+			case "/deleteClass":
+				deleteClass(request, response);
+				break;
+			case "/editClass":
+				editClass(request, response);
+				break;
+			case "/updateClass":
+				updateClass(request, response);
+				break;
+			case "/listClass":
+				listClass(request, response);
+				break;
+			case "/newClass":
+				newClass(request, response);
+				break;
+
+			// Subject-Record options
+//					case "/insertSubject":
+//						insertSubject(request, response);
+//						break;
+//					case "/deleteSubject":
+//						deleteSubject(request, response);
+//						break;
+//					case "/editSubject":
+//						editSubject(request, response);
+//						break;
+//					case "/updateSubject":
+//						updateSubject(request, response);
+//						break;
+//					case "/listSubject":
+//						listSubject(request, response);
+//						break;
+//					case "/newSubject":
+//						newSubject(request, response);
+//						break;
+
+			default:
+				listClass(request, response);
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+
+	}
+
+	private void newClass(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("class-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void listClass(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<UserPOJO> listClasses = classDAO.listClasses();
+		request.setAttribute("listClass", listClasses);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("class-list.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void deleteClass(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		classDAO.deleteClass(id);
+		response.sendRedirect("listClass");
+	}
+
+	private void insertClass(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		String cname = request.getParameter("name");
+		UserPOJO newClass = new UserPOJO(cname);
+		classDAO.insertClass(newClass);
+		response.sendRedirect("listClass");
+	}
+
+	private void editClass(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		UserPOJO existingClass = classDAO.selectClass(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("class-form.jsp");
+		request.setAttribute("userClass", existingClass);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void updateClass(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		String cName = request.getParameter("name");
+		UserPOJO classPOJO = new UserPOJO(id, cName);
+		classDAO.updateClass(classPOJO);
+		response.sendRedirect("listClass");
+	}
+
+	// Subject-Record Servlet control
+
+	private void newSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void listSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<UserPOJO> listSubjects = subjectDAO.listSubjects();
+		request.setAttribute("listSubject", listSubjects);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-list.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void deleteSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		subjectDAO.deleteSubject(id);
+		response.sendRedirect("listSubject");
+	}
+
+	private void insertSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		String clName = request.getParameter("cName");
+		String subName = request.getParameter("sName");
+		String teacherName = request.getParameter("tName");
+		UserPOJO newSubject = new UserPOJO(clName, subName, teacherName);
+		subjectDAO.insertSubject(newSubject);
+		response.sendRedirect("listSubject");
+	}
+
+	private void editSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		UserPOJO existingSubject = subjectDAO.selectSubject(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-form.jsp");
+		request.setAttribute("userSubject", existingSubject);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void updateSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		String clName = request.getParameter("cName");
+		String subName = request.getParameter("sName");
+		String teacherName = request.getParameter("tName");
+		UserPOJO subjectPOJO = new UserPOJO(id, clName, subName, teacherName);
+		subjectDAO.updateSubject(subjectPOJO);
+		response.sendRedirect("listSubject");
+	}
+
+}

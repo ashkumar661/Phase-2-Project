@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>crud-example</display-name>
+  <welcome-file-list>
+    <welcome-file>user-form.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>StudentServlet</display-name>
+    <servlet-name>StudentServlet</servlet-name>
+    <servlet-class>com.useroperations.web.StudentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StudentServlet</servlet-name>
+    <url-pattern>/StudentServlet</url-pattern>
+  </servlet-mapping>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/Error.jsp</location>
+  </error-page>
+  <servlet>
+    <description></description>
+    <display-name>TeacherServlet</display-name>
+    <servlet-name>TeacherServlet</servlet-name>
+    <servlet-class>com.useroperations.web.TeacherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeacherServlet</servlet-name>
+    <url-pattern>/TeacherServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

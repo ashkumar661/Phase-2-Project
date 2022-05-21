@@ -1,0 +1,30 @@
+package com.demo1;
+
+public class SubjectPOJO {
+	private int id;
+	private String cName;
+	private String subName;
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getcName() {
+		return cName;
+	}
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+	public String getSubName() {
+		return subName;
+	}
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+	
+	
+}

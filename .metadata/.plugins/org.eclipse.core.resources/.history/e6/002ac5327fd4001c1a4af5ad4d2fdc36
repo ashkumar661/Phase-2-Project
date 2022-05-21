@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="action.jsp">
+<sql:setDataSource var="db" driver="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://localhost:3306/LearnersAcademy" user="root"
+		password="123456" />
+
+	<sql:query dataSource="${db}" var="rs">
+	select * from classes;
+	</sql:query>
+	<center>
+		<h1>Drop down box or select element</h1>
+		<select>
+			<c:forEach var="row" items="${rs.rows}">
+				<option value="className"><c:out
+						value="${row.className}"/></option>
+			</c:forEach>
+		</select> <br> <br>
+		<input type="submit">
+	</center>
+	</form>
+
+</body>
+</html>

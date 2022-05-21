@@ -1,0 +1,85 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>How to fill multiple dropdownlist in jsp</title>
+
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<style>
+select {
+	height: 25px;
+	width: 250px;
+}
+</style>
+</head>
+<body>
+	<br />
+	<form action="" method="POST">
+
+		<table class="table table-bordered" style="width: 40%;" align="center">
+			<tr>
+				<th align="center" bgcolor="indigo" style="color: white" colspan="6"><h3
+						align="center">Multiple Dropdownlist with mysql DB</h3></th>
+			</tr>
+			<tr>
+				<th align="right">Country Name:</th>
+				<td><select name="country" id="country" onchange="this.form.submit();" class="form-control">
+						<option value="0">Select Country</option>
+						<%
+						try {
+							String Query = "select * from country";
+							Class.forName("com.mysql.jdbc.Driver");
+							Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo2", "root", "123456");
+							Statement stm = conn.createStatement();
+							ResultSet rs = stm.executeQuery(Query);
+							while (rs.next()) {
+						%>
+						<option value="<%=rs.getInt("countryid")%>"
+							<%if (request.getParameter("country") != null) {
+	if (rs.getInt("countryid") == Integer.parseInt(request.getParameter("country"))) {
+		out.print("selected");
+
+	}
+}%>><%=rs.getString("countryname")%></option>
+						<%
+						}
+
+						} catch (Exception ex) {
+						ex.printStackTrace();
+						}
+						%>
+				</select></td>
+			</tr>
+			<tr>
+				<th align="right">State Name:</th>
+				<td><select class="form-control">
+						<option value="0">Select State</option>
+						<%
+						try {
+							String query = "select * from state where countryid=?";
+							Class.forName("com.mysql.jdbc.Driver");
+							Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo2", "root", "123456");
+
+							PreparedStatement psmt = con.prepareStatement(query);
+							psmt.setString(1, request.getParameter("country"));
+
+							ResultSet rs = psmt.executeQuery();
+							while (rs.next()) {
+						%>
+						<option value="<%=rs.getInt("stateid")%>"><%=rs.getString("statename")%></option>
+						<%
+						}
+
+						} catch (Exception ex) {
+						ex.printStackTrace();
+						}
+						%>
+				</select></td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+</html>

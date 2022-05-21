@@ -1,0 +1,12 @@
+package com.demo1.POJO;
+
+public class TeacherStudentPOJO {
+	private int id;
+	private String cName;
+	private String sName;
+	private String tName;
+	
+	
+	
+	
+}

@@ -1,0 +1,7 @@
+package com.demo1.POJO;
+
+public class ClassPOJO {
+	private int id;
+	private String cName;
+	
+}

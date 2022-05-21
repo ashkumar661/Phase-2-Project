@@ -1,0 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+			<th><a href="student-list.jsp">List all Students</a></th> <tr></tr>
+			<th><a href="student-list.jsp">List all Teachers</a></th>
+			<th><a href="class-list.jsp">List all Classes</a></th>
+			<th><a href="subject-list.jsp">List all Subjects</a></th>
+	</table>
+</body>
+</html>

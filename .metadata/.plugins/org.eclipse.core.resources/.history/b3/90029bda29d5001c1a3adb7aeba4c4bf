@@ -1,0 +1,128 @@
+package Web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.demo1.UserPOJO;
+
+public class SubjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private StudentDAO studentDAO;
+	private TeacherDAO teacherDAO;
+	private ClassDAO classDAO;
+	private SubjectDAO subjectDAO;
+
+	public SubjectServlet() {
+		this.studentDAO = new StudentDAO();
+		this.teacherDAO = new TeacherDAO();
+		this.classDAO = new ClassDAO();
+		this.subjectDAO = new SubjectDAO();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getServletPath();
+
+		try {
+			switch (action) {
+			// Subject-Record options
+			case "/insertSubject":
+				insertSubject(request, response);
+				break;
+//			case "/deleteSubject":
+//				deleteSubject(request, response);
+//				break;
+//			case "/editSubject":
+//				editSubject(request, response);
+//				break;
+//			case "/updateSubject":
+//				updateSubject(request, response);
+//				break;
+//			case "/listSubject":
+//				listSubject(request, response);
+//				break;
+//			case "/newSubject":
+//				newSubject(request, response);
+//				break;
+
+			default:
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html");
+				out.print("Default clause");
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Subject-Record Servlet control
+	
+	private void insertSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+//				PrintWriter out = response.getWriter();
+//				response.setContentType("text/html");
+		String clName = request.getParameter("cName");
+		String subName = request.getParameter("sName");
+		String teacherName = request.getParameter("tName");
+//				out.print(name + " " + " " + address);
+		UserPOJO newSubject = new UserPOJO(clName, subName, teacherName);
+		subjectDAO.insertSubject(newSubject);
+		response.sendRedirect("listSubject");
+	}
+
+	private void listSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<UserPOJO> listSubjects = subjectDAO.listSubjects();
+		request.setAttribute("listSubject", listSubjects);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-list.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void deleteSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		subjectDAO.deleteSubject(id);
+		response.sendRedirect("listSubject");
+	}
+
+	private void newSubject(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void editSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		UserPOJO existingSubject = subjectDAO.selectSubject(id);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("subject-form.jsp");
+		request.setAttribute("userSubject", existingSubject);
+		dispatcher.forward(request, response);
+
+	}
+
+	private void updateSubject(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ClassNotFoundException {
+//				PrintWriter out = response.getWriter();
+//				response.setContentType("text/html");
+		int id = Integer.parseInt(request.getParameter("id"));
+		String clName = request.getParameter("cName");
+		String subName = request.getParameter("sName");
+		String teacherName = request.getParameter("tName");
+//				out.println(id + " " + name + " " + " " + address);
+		UserPOJO subjectPOJO = new UserPOJO(id, clName, subName, teacherName);
+		subjectDAO.updateSubject(subjectPOJO);
+//				out.print(status);
+		response.sendRedirect("listSubject");
+	}
+
+}

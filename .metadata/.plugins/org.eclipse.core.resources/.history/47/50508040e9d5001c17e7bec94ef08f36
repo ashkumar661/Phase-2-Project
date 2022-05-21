@@ -1,0 +1,82 @@
+package Web;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class UserServlet
+ */
+public class UserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UserServlet() {
+        super();
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Class-Record options -
+					case "/insertClass":
+						insertClass(request, response);
+						break;
+					case "/deleteClass":
+						deleteClass(request, response);
+						break;
+					case "/editClass":
+						editClass(request, response);
+						break;
+					case "/updateClass":
+						updateClass(request, response);
+						break;
+					case "/listClass":
+						listClass(request, response);
+						break;
+					case "/newClass":
+						newClass(request, response);
+						break;
+
+					// Subject-Record options
+					case "/insertSubject":
+						insertSubject(request, response);
+						break;
+					case "/deleteSubject":
+						deleteSubject(request, response);
+						break;
+					case "/editSubject":
+						editSubject(request, response);
+						break;
+					case "/updateSubject":
+						updateSubject(request, response);
+						break;
+					case "/listSubject":
+						listSubject(request, response);
+						break;
+					case "/newSubject":
+						newSubject(request, response);
+						break;
+
+					default:
+						listStudent(request,response);
+					}
+				} catch (Exception e) {
+					e.getStackTrace();
+				}
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	
+
+}

@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<body>
+	<br />
+        <form action="" method="POST">
+            
+            <table class="table table-bordered" style="width: 40%;"
+			align="center">
+                <tr>
+                    <th align="center" bgcolor="indigo"
+					style="color: white" colspan="6"><h3 align="center">Multiple Dropdownlist with mysql DB</h3></th>
+                </tr>
+                <tr>
+                    <th align="right">Class Name:</th>
+                    <td>
+                        <select name="selectClass" id="selectClass">
+                    <option value="0">Select Class</option>
+                    <%
+                    try {
+                    	String Query = "select * from classes";
+                    	Class.forName("com.mysql.cj.jdbc.Driver");
+                    	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo1", "root", "123456");
+                    	Statement stm = conn.createStatement();
+                    	ResultSet rs = stm.executeQuery(Query);
+                    	while (rs.next()) {
+                    %>
+                          <option value="<%=rs.getInt("countryid")%>"
+							<%if (request.getParameter("selectClass") != null) {
+	if (rs.getInt("id") == Integer.parseInt(request.getParameter("selectClass"))) {
+		out.print("selected");
+
+	}
+}%>><%=rs.getString("className")%></option>
+                          <%
+                          }
+
+                          } catch (Exception ex) {
+                          ex.printStackTrace();
+                          }
+                          %>
+                </select>
+                 </td>
+                </tr>
+                <tr>
+                    <th align="right">Subject Name:</th>
+                    <td>
+                        <select class="form-control">
+                    <option value="0">Select Subject</option>
+                    <%
+                    try {
+                    	String query = "select * from subjects where className='?'";
+                    	Class.forName("com.mysql.cj.jdbc.Driver");
+                    	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo1", "root", "123456");
+
+                    	PreparedStatement psmt = con.prepareStatement(query);
+                    	psmt.setString(1, request.getParameter("selectClass"));
+
+                    	ResultSet rs = psmt.executeQuery();
+                    	while (rs.next()) {
+                    %>
+                          <option value="<%=rs.getInt("id")%>"><%=rs.getString("subName")%></option>
+                          <%
+                          }
+
+                          } catch (Exception ex) {
+                          ex.printStackTrace();
+                          }
+                          %>
+                </select>
+                 </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+
+</body>
+
+</html>

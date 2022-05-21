@@ -1,0 +1,15 @@
+package Web;
+
+import java.sql.Connection;
+
+public class SubjectDAO{
+	private String jdbcURL = "jdbc:mysql://localhost:3306/demo1";
+	private String jdbcUsername = "root";
+	private String jdbcPassword = "123456";
+	private Connection jdbcConnection;
+	private static final String insertSubjectSQL = "insert into sub_teacher(className, subName, tName) values(?,?,?)";
+	private static final String selectSubjectSQL = "select id, className, subName, tName from sub_teacher where id=?";
+	private static final String updateSubjectSQL = "update sub_teacher set className=?, subName=?, tName=? where id=?";
+	private static final String deleteSubjectSQL = "delete from sub_teacher where id=?";
+	private static final String listSubjectSQL = "select * from sub_teacher";
+}

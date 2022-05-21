@@ -1,0 +1,87 @@
+package Web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.demo1.POJO.StudentPOJO;
+
+
+public class DateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public DateServlet() {
+		super();
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		
+			case "/newTeacherSubject":
+				newTeacherSubject(request, response);
+				break;
+			case "/classReport":
+				classReport(request, response);
+				break;
+
+			default:
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html");
+				out.print("Default clause");
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	private void insertDate (HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		PrintWriter out = response.getWriter();
+		String dob = request.getParameter("dob");
+		DatePOJO pojo = new DatePOJO();
+		DateDAO dao = new DateDAO();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		try {
+			Date dobFinal = sdf.parse(dob);
+			pojo.setDob(dobFinal);
+			int row = dao.insert(pojo);
+			if(row>0) {
+				out.print("Data inserted");
+			}
+			else {
+				out.print("Insertion failed");
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void listStudent(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<StudentPOJO> listStudent = studentDAO.listStudent();
+		request.setAttribute("listStudent", listStudent);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("student-list.jsp");
+		dispatcher.forward(request, response);
+	}
+}

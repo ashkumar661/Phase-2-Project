@@ -1,0 +1,47 @@
+package Web;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class DateDAO {
+	private String jdbcURL = "jdbc:mysql://localhost:3306/date_example";
+	private String jdbcUsername = "root";
+	private String jdbcPassword = "123456";
+	private Connection jdbcConnection;
+
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+
+	public int insert(DatePOJO pojo) throws SQLException {
+		String sql = "insert into date_table values(?)";
+		PreparedStatement ps = jdbcConnection.prepareStatement(sql);
+		String doj=request.getParameter("doj");
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-mm-dd");
+		Date dojfinal=sdf.parse(doj);
+		pojo.setDoj(dojfinal);
+		int row=dao.insert(pojo);
+		if(row>0){
+			out.print("date inserted ");
+		}
+		else{
+			out.print("date is not inserted ");
+		}
+
+	}
+}

@@ -1,0 +1,7 @@
+package com.useroperations.pojo;
+
+public class SubjectPOJO {
+	private int id;
+	private String className;
+	private String subName;
+}

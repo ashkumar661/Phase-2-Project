@@ -1,0 +1,9 @@
+package com.demo1;
+
+public class SubjectPOJO {
+	private int id;
+	private String cName;
+	private String subName;
+	
+	
+}

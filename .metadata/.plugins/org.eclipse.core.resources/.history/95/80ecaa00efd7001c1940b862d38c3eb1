@@ -1,0 +1,13 @@
+package Web;
+
+import java.sql.Connection;
+
+public class DateDAO {
+ public int insert(DatePOJO pojo) {
+	 String sql = "insert into date_table values(?)";
+	 private String jdbcURL = "jdbc:mysql://localhost:3306/LearnersAcademy";
+		private String jdbcUsername = "root";
+		private String jdbcPassword = "123456";
+		private Connection jdbcConnection;
+ }
+}

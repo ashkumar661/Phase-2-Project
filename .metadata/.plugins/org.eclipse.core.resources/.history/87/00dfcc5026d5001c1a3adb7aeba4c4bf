@@ -1,0 +1,120 @@
+package Web;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.demo1.UserPOJO;
+
+public class SubjectDAO{
+	private String jdbcURL = "jdbc:mysql://localhost:3306/demo1";
+	private String jdbcUsername = "root";
+	private String jdbcPassword = "123456";
+	private Connection jdbcConnection;
+	private static final String insertSubjectSQL = "insert into sub_teacher(className, subName, tName) values(?,?,?)";
+	private static final String selectSubjectSQL = "select id, className, subName, tName from sub_teacher where id=?";
+	private static final String updateSubjectSQL = "update sub_teacher set className=?, subName=?, tName=? where id=?";
+	private static final String deleteSubjectSQL = "delete from sub_teacher where id=?";
+	private static final String listSubjectSQL = "select * from sub_teacher";
+	
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+	
+	// Insert record
+		public boolean insertSubject(UserPOJO pojo) throws SQLException {
+			connect();
+			PreparedStatement statement = jdbcConnection.prepareStatement(insertSubjectSQL);
+			statement.setString(1, pojo.getcName());
+			statement.setString(2, pojo.getSubName());
+			statement.setString(3, pojo.getName());
+			Boolean status = statement.executeUpdate() > 0;
+			statement.close();
+			disconnect();
+			return status;
+		}
+
+		// delete record
+		public boolean deleteSubject(int id) throws ClassNotFoundException, SQLException {
+			connect();
+			PreparedStatement statement = jdbcConnection.prepareStatement(deleteSubjectSQL);
+			statement.setInt(1, id);
+			boolean rowDeleted = statement.executeUpdate() > 0;
+			statement.close();
+			disconnect();
+			return rowDeleted;
+		}
+
+		// update record
+		public boolean updateSubject(UserPOJO pojo) throws ClassNotFoundException, SQLException {
+			connect();
+			PreparedStatement statement = jdbcConnection.prepareStatement(updateSubjectSQL);
+			statement.setString(1, pojo.getcName());
+			statement.setString(2, pojo.getSubName());
+			statement.setString(3, pojo.getName());
+			statement.setInt(4, pojo.getId());
+			boolean rowUpdated = statement.executeUpdate() > 0;
+			statement.close();
+			disconnect();
+			return rowUpdated;
+		}
+
+		// list record by id
+		public UserPOJO selectSubject(int id) throws SQLException {
+			UserPOJO pojo = null;
+			connect();
+
+			PreparedStatement statement = jdbcConnection.prepareStatement(selectSubjectSQL);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				String cName = resultSet.getString("className");
+				String subName = resultSet.getString("subName");
+				String tName = resultSet.getString("tName");
+				pojo = new UserPOJO(id, cName, subName,tName);
+			}
+			resultSet.close();
+			statement.close();
+			disconnect();
+			return pojo;
+		}
+
+		// list all record
+		public List<UserPOJO> listSubjects() throws SQLException {
+			List<UserPOJO> subjectList = new ArrayList<>();
+			connect();
+
+			PreparedStatement statement = jdbcConnection.prepareStatement(listSubjectSQL);
+
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				int cID = resultSet.getInt("id");
+				String cName = resultSet.getString("className");
+				String subName = resultSet.getString("subName");
+				String tName = resultSet.getString("tName");
+				UserPOJO pojo = new UserPOJO(cID, cName, subName, tName);
+				subjectList.add(pojo);
+			}
+			resultSet.close();
+			statement.close();
+			disconnect();
+			return subjectList;
+		}
+}

@@ -1,0 +1,32 @@
+package Web;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.demo1.ClassDAO;
+import com.demo1.StudentDAO;
+import com.demo1.SubjectDAO;
+import com.demo1.TeacherDAO;
+
+public class SubjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private StudentDAO studentDAO;
+	private TeacherDAO teacherDAO;
+	private ClassDAO classDAO;
+	private SubjectDAO subjectDAO;
+
+	public UserServlet() {
+		this.studentDAO = new StudentDAO();
+		this.teacherDAO = new TeacherDAO();
+		this.classDAO = new ClassDAO();
+		this.subjectDAO = new SubjectDAO();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}

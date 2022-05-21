@@ -1,0 +1,83 @@
+package Web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/")
+public class DateServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private DateDAO dateDAO;
+	private DatePOJO datePOJO;
+
+	public DateServlet() {
+		super();
+		dateDAO = new DateDAO();
+		datePOJO = new DatePOJO();
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String action = request.getServletPath();
+		try {
+			switch (action) {
+			case "/insertDate":
+				insertDate(request, response);
+				break;
+			case "/listDate":
+				listDate(request, response);
+				break;
+
+			default:
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html");
+				out.print("Default clause");
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void insertDate(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+//		PrintWriter out = response.getWriter();
+		String dob = request.getParameter("dob");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			Date dobFinal = sdf.parse(dob);
+			datePOJO.setDob(dobFinal);
+			dateDAO.insert(datePOJO);
+			response.sendRedirect("listDate");
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void listDate(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		List<DatePOJO> listDob = dateDAO.listDate();
+		request.setAttribute("listDOB", listDob);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("date-list.jsp");
+		dispatcher.forward(request, response);
+	}
+}

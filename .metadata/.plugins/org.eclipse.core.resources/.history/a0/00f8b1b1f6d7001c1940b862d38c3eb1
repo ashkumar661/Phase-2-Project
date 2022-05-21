@@ -1,0 +1,61 @@
+package Web;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DateDAO {
+	private String jdbcURL = "jdbc:mysql://localhost:3306/date_example";
+	private String jdbcUsername = "root";
+	private String jdbcPassword = "123456";
+	private Connection jdbcConnection;
+	private static final String listClassSQL = "select * from classes";
+
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+
+	public int insert(DatePOJO pojo) throws SQLException {
+		connect();
+		String sql = "insert into date_table values(?)";
+		PreparedStatement ps = jdbcConnection.prepareStatement(sql);
+		ps.setDate(1,new java.sql.Date( pojo.getDob().getTime()));
+		return ps.executeUpdate();
+	}
+	
+	public List<DatePOJO> listClasses() throws SQLException {
+		List<DatePOJO> dateList = new ArrayList<>();
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(listClassSQL);
+
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			Date sqlDob = resultSet.getDate("dob");
+			DatePOJO pojo = new DatePOJO(sqlDob);
+			dateList.add(pojo);
+		}
+		resultSet.close();
+		statement.close();
+		disconnect();
+		return dateList;
+	}
+}

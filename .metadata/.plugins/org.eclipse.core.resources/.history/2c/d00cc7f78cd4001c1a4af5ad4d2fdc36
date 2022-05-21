@@ -1,0 +1,37 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Learner's Academy</title>
+</head>
+<body>
+	<h1>Class Record Management</h1>
+	<h2>
+		<a href="<%=request.getContextPath()%>/newClass">Add New Class</a>
+		&nbsp;&nbsp;&nbsp; <a href="<%=request.getContextPath()%>/listClass">List
+			All Classes</a>
+	</h2>
+	<table border="1">
+		<caption>
+			<h2>List of Classes</h2>
+		</caption>
+		<tr>
+			<th>ID</th>
+			<th>Class Name</th>
+		</tr>
+		<c:forEach var="cList" items="${listClass}">
+			<tr>
+				<td><c:out value="${cList.id}" /></td>
+				<td><c:out value="${cList.cName}" /></td>
+				<td><a href="editClass?id=<c:out value='${cList.id}' />">Edit</a>
+					&nbsp;&nbsp;&nbsp;&nbsp; <a
+					href="deleteClass?id=<c:out value='${cList.id}' />">Delete</a></td>
+			</tr>
+		</c:forEach>
+	</table>
+	<a href="dashboard.jsp"><h2>Dashboard</h2></a>
+</body>
+</html>

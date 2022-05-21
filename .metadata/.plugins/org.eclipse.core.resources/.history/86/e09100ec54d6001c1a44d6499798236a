@@ -1,0 +1,68 @@
+package com.demo1;
+
+public class UserPOJO {
+	private int id;
+	private String name;
+	private String address;
+	private String cName;
+	private String subName;
+	
+	public UserPOJO(int id, String cName, String subName, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.cName = cName;
+		this.subName = subName;
+	}
+	public String getSubName() {
+		return subName;
+	}
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+	public UserPOJO(String cName) {
+		super();
+		this.cName = cName;
+	}
+	public UserPOJO(int id, String cName) {
+		super();
+		this.id = id;
+		this.cName = cName;
+	}
+	public String getcName() {
+		return cName;
+	}
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+	public UserPOJO(String name, String address) {
+		super();
+		this.name = name;
+		this.address = address;
+	}
+	public UserPOJO(int id, String name, String address) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+}

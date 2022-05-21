@@ -1,0 +1,10 @@
+package Web;
+
+import java.util.Date;
+
+public class DatePOJO {
+ private Date dob;
+ 
+ 
+ 
+}

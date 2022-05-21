@@ -1,0 +1,34 @@
+package Web;
+
+import java.util.Date;
+
+public class DatePOJO {
+	private Date dob;
+	private String sqlDOB;
+	
+
+	public DatePOJO(Date dob) {
+		super();
+		this.dob = dob;
+	}
+
+	public DatePOJO() {
+	}
+
+	public String getSqlDOB() {
+		return sqlDOB;
+	}
+
+	public void setSqlDOB(String sqlDOB) {
+		this.sqlDOB = sqlDOB;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+}

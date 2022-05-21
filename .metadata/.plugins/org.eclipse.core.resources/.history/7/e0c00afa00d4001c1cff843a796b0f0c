@@ -1,0 +1,126 @@
+package com.useroperations.dao;
+import com.useroperations.pojo.UserPOJO;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+
+public class TeacherDAO {
+	private String jdbcURL = "jdbc:mysql://localhost:3306/demo1";
+	private String jdbcUsername = "root";
+	private String jdbcPassword = "123456";
+	private Connection jdbcConnection;
+	private static final String insertTeacherSQL = "insert into teacher(tName, tGender, tDOB, tAddress) values(?,?,?,?,?)";
+	private static final String selectTeacherSQL = "select id, tName, tGender, tDOB, tAddress from teacher where id=?";
+	private static final String updateTeacherSQL = "update teacher set tName=?, tGender=?, tDOB=?, tAddress=? where id=?";
+	private static final String deleteTeacherSQL = "delete from teacher where id=?";
+	private static final String listTeachersSQL = "select * from teacher";
+
+	protected void connect() throws SQLException {
+		if (jdbcConnection == null || jdbcConnection.isClosed()) {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				throw new SQLException(e);
+			}
+			jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		}
+	}
+
+	protected void disconnect() throws SQLException {
+		if (jdbcConnection != null && !jdbcConnection.isClosed()) {
+			jdbcConnection.close();
+		}
+	}
+
+	// Insert record
+	public boolean insertTeacher(UserPOJO pojo) throws SQLException {
+		connect();
+		PreparedStatement statement = jdbcConnection.prepareStatement(insertTeacherSQL);
+		statement.setString(1, pojo.getName());
+		statement.setString(2, pojo.getGender());
+		statement.setString(3, pojo.getDob());
+		statement.setString(4, pojo.getAddress());
+		
+		Boolean status = statement.executeUpdate() > 0;
+		statement.close();
+		disconnect();
+		return status;
+	}
+	
+	// delete record
+		public boolean deleteTeacher(int id) throws ClassNotFoundException, SQLException {
+			connect();
+			PreparedStatement statement = jdbcConnection.prepareStatement(deleteTeacherSQL);
+			statement.setInt(1, id);
+			boolean rowDeleted = statement.executeUpdate() > 0;
+			statement.close();
+			disconnect();
+			return rowDeleted;
+		}
+
+	// update record
+	public boolean updateTeacher(UserPOJO pojo) throws ClassNotFoundException, SQLException {
+		connect();
+		PreparedStatement statement = jdbcConnection.prepareStatement(updateTeacherSQL);
+		statement.setString(1, pojo.getName());
+		statement.setString(2, pojo.getAddress());
+		statement.setInt(3, pojo.getId());
+		boolean rowUpdated = statement.executeUpdate() > 0;
+		statement.close();
+		disconnect();
+		return rowUpdated;
+	}
+
+	// list record by id
+	public UserPOJO selectTeacher(int id) throws SQLException {
+		UserPOJO pojo = null;
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(selectTeacherSQL);
+		statement.setInt(1, id);
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			String teaName = resultSet.getString("tName");
+			String teaAddress = resultSet.getString("tAddress");
+			String teaName = resultSet.getString("tName");
+			String teaAddress = resultSet.getString("tAddress");
+			String teaName = resultSet.getString("tName");
+			
+			pojo = new UserPOJO(id, teaName, teaAddress);
+		}
+		resultSet.close();
+		statement.close();
+		disconnect();
+
+		return pojo;
+	}
+
+	// list all record
+	public List<UserPOJO> listTeachers() throws SQLException {
+		List<UserPOJO> teacherList = new ArrayList<>();
+		connect();
+
+		PreparedStatement statement = jdbcConnection.prepareStatement(listTeachersSQL);
+
+		ResultSet resultSet = statement.executeQuery();
+		while (resultSet.next()) {
+			int teaID = resultSet.getInt("id");
+			String teaName = resultSet.getString("tName");
+			String teaAddress = resultSet.getString("tAddress");
+			UserPOJO pojo = new UserPOJO(teaID, teaName, teaAddress);
+			teacherList.add(pojo);
+		}
+		resultSet.close();
+		statement.close();
+		disconnect();
+		return teacherList;
+	}
+}

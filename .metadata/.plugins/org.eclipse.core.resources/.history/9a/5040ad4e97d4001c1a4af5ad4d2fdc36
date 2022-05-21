@@ -1,0 +1,122 @@
+package com.useroperations.pojo;
+
+public class UserPOJO {
+	private int id;
+	private String name;
+	private String gender;
+	private String dob;
+	private String address;
+	private String className;
+	private String subName;
+	
+	
+	
+	
+
+	public UserPOJO(String className, String subName, String name) {
+		super();
+		this.name = name;
+		this.className = className;
+		this.subName = subName;
+	}
+
+	public UserPOJO(int id, String className, String subName, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.className = className;
+		this.subName = subName;
+	}
+
+	public String getSubName() {
+		return subName;
+	}
+
+	public void setSubName(String subName) {
+		this.subName = subName;
+	}
+
+	public UserPOJO(String name, String gender, String dob, String address) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
+		this.address = address;
+	}
+
+	public UserPOJO(int id, String name, String gender, String dob, String address) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
+		this.address = address;
+	}
+
+	public UserPOJO(int id, String name, String gender, String dob, String address, String className) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
+		this.address = address;
+		this.className = className;
+	}
+
+	public UserPOJO(String name, String gender, String dob, String address, String className) {
+		super();
+		this.name = name;
+		this.gender = gender;
+		this.dob = dob;
+		this.address = address;
+		this.className = className;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
+	}
+}

@@ -1,0 +1,74 @@
+package Web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/Student")
+public class StudentServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public StudentServlet() {
+		super();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		this.doGet(request, response);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("This is Student Servlet");
+		String action = request.getServletPath();
+		out.println(action);
+
+		try {
+			switch (action) {
+			case "/new":
+				showNewForm(request, response);
+				break;
+			case "/insert":
+				insertStudent(request, response);
+				break;
+
+			default:
+				listStudent(request, response);
+				break;
+			}
+		} catch (Exception e) {
+			e.getStackTrace();
+		}
+
+	}
+
+	private void listStudent(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("This is /List listStudent function");
+	}
+
+	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("student-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void insertStudent(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("This is /insert insertStudent function");
+	}
+}

@@ -1,0 +1,10 @@
+package com.demo1.POJO;
+
+public class TeacherPOJO {
+	private int id;
+	private String name;
+	private String address;
+
+
+
+}

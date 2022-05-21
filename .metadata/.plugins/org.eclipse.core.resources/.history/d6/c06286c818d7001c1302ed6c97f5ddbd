@@ -1,0 +1,6 @@
+package com.useroperations.pojo;
+
+public class ClassPOJO {
+private int id;
+	private String className;
+}

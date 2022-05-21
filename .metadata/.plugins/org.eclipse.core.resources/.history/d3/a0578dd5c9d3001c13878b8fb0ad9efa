@@ -1,0 +1,6 @@
+package com.demo1;
+
+public class UserPOJO {
+private int id;
+
+}

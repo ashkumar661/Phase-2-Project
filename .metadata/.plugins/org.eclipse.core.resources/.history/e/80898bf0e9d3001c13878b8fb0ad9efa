@@ -1,0 +1,18 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Dashboard</title>
+</head>
+<body>
+<h1>Select an option from below</h1>
+	<table>
+			<th><a href="student-list.jsp"><h3>List all Students</h3></a></th> <tr></tr>
+			<th><a href="student-list.jsp"><h2>List all Teachers</h2></a></th> <tr></tr>
+			<th><a href="class-list.jsp"><h2>List all Classes</h2></a></th> <tr></tr>
+			<th><a href="subject-list.jsp"><h2>List all Subjects</h2></a></th> <tr></tr>
+	</table>
+</body>
+</html>

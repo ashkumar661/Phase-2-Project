@@ -1,0 +1,65 @@
+package Web;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class SubjectServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private StudentDAO studentDAO;
+	private TeacherDAO teacherDAO;
+	private ClassDAO classDAO;
+	private SubjectDAO subjectDAO;
+
+	public SubjectServlet() {
+		this.studentDAO = new StudentDAO();
+		this.teacherDAO = new TeacherDAO();
+		this.classDAO = new ClassDAO();
+		this.subjectDAO = new SubjectDAO();
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getServletPath();
+
+		try {
+			switch (action) {
+			//Subject-Record options
+			case "/insertSubject":
+				insertSubject(request, response);
+				break;
+			case "/deleteSubject":
+				deleteSubject(request, response);
+				break;
+			case "/editSubject":
+				editSubject(request, response);
+				break;
+			case "/updateSubject":
+				updateSubject(request, response);
+				break;
+			case "/listSubject":
+				listSubject(request, response);
+				break;
+			case "/newSubject":
+				newSubject(request, response);
+				break;
+
+			default:
+				PrintWriter out = response.getWriter();
+				response.setContentType("text/html");
+				out.print("Default clause");
+				break;
+			}
+		}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+		
+		
+
+}
